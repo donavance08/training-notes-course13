@@ -1,7 +1,6 @@
-const app = require('./app');
+import app from './app';
 
 app.listen(3000, () => {
   console.log(`Ski Dictionary at http://localhost:3000`);
 });
 
-const appMock = require('./app');

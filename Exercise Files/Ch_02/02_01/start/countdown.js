@@ -1,8 +1,15 @@
 #!/usr/bin/env node
 
+/* *
+ * Collect number of sec from the argv
+ * Print stars in-line
+ * Run a  timer and remove stars;
+ */
+
 const parseArgs = require('minimist');
-const { stdout: log } = require('single-line-log');
 const { time } = parseArgs(process.argv);
+const { stdout: log } = require('single-line-log');
+const Timer = require('tiny-timer');
 
 if (!time) {
   throw new Error('--time is required');
@@ -13,6 +20,7 @@ if (!parseInt(time)) {
 }
 
 const count = parseInt(time);
+
 let message = '';
 
 for (let i = 0; i < count; i++) {
@@ -21,11 +29,12 @@ for (let i = 0; i < count; i++) {
 
 log(message);
 
-setTimeout(() => {
-  log('overwrites line');
-}, 2000);
+const timer = new Timer({ interval: 1000 });
 
-//
-// Run a timer and remove stars
-//
+timer.on('tick', () => {
+  log(message);
+  message = message.slice(1);
+});
+
+timer.start(count * 1000);
 
